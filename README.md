@@ -1,50 +1,63 @@
-# React + TypeScript + Vite
+<h1 align="center">Web Wedding Invitation</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18.0.0-blue" alt="React Version" />
+  <img src="https://img.shields.io/badge/TypeScript-4.4.4-blue" alt="TypeScript Version" />
+  <img src="https://img.shields.io/badge/ShadCNUI-Integrated-06B6D4" alt="ShadCN UI Integration" />
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=react,typescript,tailwind" alt="Tech Stack Icons" />
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+This project is a modern and interactive web-based **wedding invitation** built using **React** and **TypeScript**, with elegant styling powered by **ShadCN UI**. The application offers a seamless user experience with customizable sections for event details, RSVP functionality, a photo gallery, and a love story timeline. Designed to be fully responsive, it ensures accessibility across devices.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- Interactive and modern web-based wedding invitation
+- Customizable sections for event details and RSVP
+- Photo gallery to share memorable moments
+- Love story timeline to narrate your journey
+- Fully responsive design for optimal viewing on all devices
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Tech Stack
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **React 18.0.0**
+- **TypeScript 4.4.4**
+- **ShadCN UI** for elegant styling
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+
+## Setup & Installation
+
+---
+
+- **Clone the repository**
+
+    ```bash
+    git clone https://github.com/mochrks/web-wedding-invitation.git
+    cd web-wedding-invitation
+    ```
+
+- **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+
+- **Run the development server**
+
+    ```bash
+    npm run dev
+    ```
+
+## Connect with me:
+[![GitHub](https://img.shields.io/badge/GitHub-333?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mochrks)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@Gdvisuel)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/mochrks)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/mochrks)
+[![Behance](https://img.shields.io/badge/Behance-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://behance.net/mochrks)
+[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=for-the-badge&logo=dribbble&logoColor=white)](https://dribbble.com/mochrks)
+
