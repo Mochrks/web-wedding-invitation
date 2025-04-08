@@ -12,7 +12,7 @@
 
 ## Overview
 
-This project is a modern and interactive web-based **wedding invitation** built using **React** and **TypeScript**, with elegant styling powered by **ShadCN UI**. The application offers a seamless user experience with customizable sections for event details, RSVP functionality, a photo gallery, and a love story timeline. Designed to be fully responsive, it ensures accessibility across devices.
+This project is a modern and interactive web-based **wedding invitation** built using **React** and **TypeScript**, with elegant styling powered by **ShadCN UI**. The applications offers a seamless user experience with customizable sections for event details, RSVP functionality, a photo gallery, and a love story timeline. Designed to be fully responsive, it ensures accessibility across devices.
 
 ## Features
 
