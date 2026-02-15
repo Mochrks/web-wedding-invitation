@@ -1,12 +1,9 @@
-
-
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Masonry from 'react-masonry-css'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { satu, dua, tiga, empat, lima, enam, tujuh, delapan, sembilan, spuluh, irfan, is } from '@/assets'
 
 interface Photo {
@@ -28,7 +25,7 @@ const photos: Photo[] = [
     { id: 9, src: sembilan, alt: 'Wedding photo 9', category: 'portraits' },
     { id: 10, src: is, alt: 'Wedding photo 10', category: 'portraits' },
     { id: 11, src: spuluh, alt: 'Wedding photo 11', category: 'portraits' },
-    { id: 11, src: irfan, alt: 'Wedding photo 11', category: 'portraits' },
+    { id: 12, src: irfan, alt: 'Wedding photo 12', category: 'portraits' },
 ]
 
 const categories = ['all', 'ceremony', 'reception', 'portraits']
@@ -73,32 +70,30 @@ export function PhotoGallery() {
     }
 
     return (
-        <section className="py-12 bg-gradient-to-b from-background to-muted rounded-xl">
-            {/* content */}
+        <section id="album" className="py-24 bg-background">
             <div className="container mx-auto px-4">
-                {/* title */}
-                <motion.h2
-                    className="text-4xl font-bold text-center mb-8 text-primary"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1 }}
+                    className="text-center mb-16"
                 >
-                    Our Wedding Album
-                </motion.h2>
+                    <h2 className="text-4xl md:text-5xl italic mb-4">Our Album</h2>
+                    <div className="w-12 h-[1px] bg-primary/20 mx-auto mb-12"></div>
 
-                <Tabs defaultValue="all" className="mb-8">
-                    <TabsList className="grid w-full grid-cols-4 space-x-1 lg:w-[400px] mx-auto">
+                    <div className="flex flex-wrap justify-center gap-8">
                         {categories.map(category => (
-                            <TabsTrigger
+                            <button
                                 key={category}
-                                value={category}
                                 onClick={() => setCurrentCategory(category)}
+                                className={`text-[10px] uppercase tracking-[0.3em] transition-all duration-500 pb-1 border-b ${currentCategory === category ? 'text-primary border-primary' : 'text-muted-foreground border-transparent hover:text-primary'}`}
                             >
-                                {category.charAt(0).toUpperCase() + category.slice(1)}
-                            </TabsTrigger>
+                                {category}
+                            </button>
                         ))}
-                    </TabsList>
-                </Tabs>
+                    </div>
+                </motion.div>
 
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
@@ -108,80 +103,72 @@ export function PhotoGallery() {
                     {filteredPhotos.map((photo, index) => (
                         <motion.div
                             key={photo.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: index * 0.05 }}
                             className="mb-4"
                         >
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
+                            <div
+                                className="relative overflow-hidden cursor-pointer group"
                                 onClick={() => openLightbox(photo)}
                             >
-                                <img src={photo.src} alt={photo.alt} className="w-full h-auto object-cover" />
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    whileHover={{ opacity: 1 }}
-                                    className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-                                >
-                                    <p className="text-white text-lg font-semibold">View</p>
-                                </motion.div>
-                            </motion.div>
+                                <img
+                                    src={photo.src}
+                                    alt={photo.alt}
+                                    className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-700 flex items-center justify-center">
+                                    <span className="text-white text-[10px] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-opacity duration-700">View</span>
+                                </div>
+                            </div>
                         </motion.div>
                     ))}
                 </Masonry>
             </div>
 
-
-            {/* dialog modal */}
-            <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen} >
-                <DialogContent className="max-w-[80vw] md:max-w-[20vw] max-h-[80vh] px-3  overflow-hidden ">
-                    <DialogHeader>
-                        <DialogTitle className="sr-only">Photo View</DialogTitle>
+            <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
+                <DialogContent className="max-w-[90vw] md:max-w-[70vw] h-[80vh] bg-black/95 border-none p-0 overflow-hidden rounded-none">
+                    <DialogHeader className="hidden">
+                        <DialogTitle>Photo View</DialogTitle>
                     </DialogHeader>
-                    <div className="relative">
+                    <div className="relative w-full h-full flex items-center justify-center p-4">
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="absolute  top-4 right-4 z-10 bg-white/90"
+                            className="absolute top-4 right-4 z-50 text-white hover:bg-white/10"
                             onClick={closeLightbox}
                         >
-                            <X className="h-4 w-4" />
-                            <span className="sr-only">Close</span>
+                            <X className="h-5 w-5" />
                         </Button>
+
                         <AnimatePresence mode="wait">
                             {selectedPhoto && (
                                 <motion.img
                                     key={selectedPhoto.id}
                                     src={selectedPhoto.src}
                                     alt={selectedPhoto.alt}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="w-full h-full object-contain"
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 1.1 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="max-w-full max-h-full object-contain"
                                 />
                             )}
                         </AnimatePresence>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="absolute top-1/2 left-2 transform -translate-y-1/2"
+
+                        <button
+                            className="absolute left-4 text-white/50 hover:text-white transition-colors"
                             onClick={() => navigatePhoto('prev')}
                         >
-                            <ChevronLeft className="h-4 w-4" />
-                            <span className="sr-only">Previous photo</span>
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="absolute top-1/2 right-2 transform -translate-y-1/2"
+                            <ChevronLeft className="h-10 w-10 stroke-1" />
+                        </button>
+                        <button
+                            className="absolute right-4 text-white/50 hover:text-white transition-colors"
                             onClick={() => navigatePhoto('next')}
                         >
-                            <ChevronRight className="h-4 w-4" />
-                            <span className="sr-only">Next photo</span>
-                        </Button>
+                            <ChevronRight className="h-10 w-10 stroke-1" />
+                        </button>
                     </div>
                 </DialogContent>
             </Dialog>

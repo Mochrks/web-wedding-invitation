@@ -1,22 +1,19 @@
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from 'framer-motion'
 import { Check, Copy } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 interface BankAccount {
     bank: string
     number: string
-    logo: string
+    holder: string
 }
 
 export function BankAccounts() {
     const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
 
     const accounts: BankAccount[] = [
-        { bank: 'BCA', number: '1234567890', logo: 'https://statik.tempo.co/data/2019/04/23/id_836405/836405_720.jpg' },
-        { bank: 'BRI', number: '0987654321', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg' },
-        { bank: 'MANDIRI', number: '1122334455', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC5i2DTq_zcdUSaJtpoAu3Pb4hxxtNUkPyMQ&s' },
+        { bank: 'BCA', number: '1234567890', holder: 'Irfan' },
+        { bank: 'Mandiri', number: '0987654321', holder: 'Rima' },
     ]
 
     const copyToClipboard = (text: string, index: number) => {
@@ -27,39 +24,64 @@ export function BankAccounts() {
     }
 
     return (
-        <section className="pb-20">
-            <h2 className="text-3xl font-bold text-center mb-6">Bank Accounts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {accounts.map((account, index) => (
-                    <Card key={index} className="overflow-hidden">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                                {account.bank}
-                            </CardTitle>
-                            <img src={account.logo} alt={`${account.bank} logo`} className="h-5 w-15" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex items-center justify-between">
-                                <p className="text-xl font-mono">{account.number}</p>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => copyToClipboard(account.number, index)}
-                                    className={cn(
-                                        "transition-all duration-200",
-                                        copiedIndex === index && "bg-green-500 text-white hover:bg-green-600"
-                                    )}
-                                >
-                                    {copiedIndex === index ? (
-                                        <Check className="h-4 w-4" />
-                                    ) : (
-                                        <Copy className="h-4 w-4" />
-                                    )}
-                                </Button>
+        <section className="pb-24 bg-background">
+            <div className="container mx-auto px-4 max-w-4xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {accounts.map((account, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: index * 0.1 }}
+                            className="p-8 border border-primary/5 bg-background shadow-sm hover:border-primary/20 transition-all duration-700"
+                        >
+                            <div className="flex justify-between items-start mb-8">
+                                <div>
+                                    <h3 className="text-2xl font-serif italic mb-1">{account.bank}</h3>
+                                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Bank Account</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs font-light text-muted-foreground mb-1">Account Holder</p>
+                                    <p className="font-medium tracking-wide">{account.holder}</p>
+                                </div>
                             </div>
-                        </CardContent>
-                    </Card>
-                ))}
+
+                            <div className="flex items-center justify-between border-t border-primary/5 pt-6">
+                                <p className="text-2xl font-light tracking-[0.1em]">{account.number}</p>
+                                <button
+                                    onClick={() => copyToClipboard(account.number, index)}
+                                    className="p-2 hover:bg-primary/5 rounded-none transition-all duration-300 relative group"
+                                >
+                                    <AnimatePresence mode="wait">
+                                        {copiedIndex === index ? (
+                                            <motion.div
+                                                key="check"
+                                                initial={{ scale: 0.5, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                exit={{ scale: 0.5, opacity: 0 }}
+                                            >
+                                                <Check className="h-4 w-4 text-primary" />
+                                            </motion.div>
+                                        ) : (
+                                            <motion.div
+                                                key="copy"
+                                                initial={{ scale: 0.5, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                exit={{ scale: 0.5, opacity: 0 }}
+                                            >
+                                                <Copy className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest bg-primary text-primary-foreground px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        {copiedIndex === index ? 'Copied' : 'Copy'}
+                                    </span>
+                                </button>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     )

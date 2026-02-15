@@ -1,56 +1,78 @@
-import { irfan, is2 } from "@/assets"
+import { motion } from 'framer-motion'
+import { irfan, is } from '@/assets'
 
 export function About() {
     return (
-        <section id="about" className="py-12 font-primary">
-            <h2 className="text-4xl font-bold text-center mb-2">Our Story</h2>
-            <div className="flex justify-center mb-8">
-                {/* You can add your decorative element here if needed */}
-            </div>
-            <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                <div className="flex flex-col items-center">
-                    <div className="relative w-64 h-64">
-                        <div className="w-full h-full rounded-full overflow-hidden">
-                            <img
-                                src={irfan}
-                                alt="Irfan"
-                                className="w-full h-full object-cover"
-                            />
+        <section id="couple" className="py-24 bg-background relative overflow-hidden">
+            {/* Romantic Quote Decoration */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-texture opacity-30 pointer-events-none" />
+
+            <div className="container mx-auto px-4 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1 }}
+                    className="text-center mb-24"
+                >
+                    <p className="font-calligraphy text-4xl md:text-5xl text-primary mb-6">You are my today and all of my tomorrows</p>
+                    <div className="w-12 h-[1px] bg-primary/20 mx-auto"></div>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center max-w-5xl mx-auto">
+                    {/* Groom */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="flex flex-col items-center text-center space-y-8"
+                    >
+                        <div className="relative group">
+                            <div className="absolute inset-0 border border-primary/10 -m-4 group-hover:m-0 transition-all duration-700" />
+                            <div className="w-64 h-80 overflow-hidden relative">
+                                <img
+                                    src={irfan}
+                                    alt="Groom"
+                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-110"
+                                />
+                            </div>
                         </div>
-                        <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="1" />
-                        </svg>
-                    </div>
-                    <h3 className="text-2xl font-secondary mt-4">Irfan</h3>
-                </div>
-                <div className="text-center font-tertiary">
-                    <p className="mb-4">
-                        Irfan and Istri love story began five years ago when they met at a local coffee shop.
-                        What started as a chance encounter over spilled lattes turned into a beautiful friendship,
-                        and eventually blossomed into love.
-                    </p>
-                    <p className="mb-4">
-                        Through the ups and downs of life, they've stood by each other, growing stronger together.
-                        Now, they're ready to take the next step in their journey and commit to a lifetime of love and adventure.
-                    </p>
-                    <p>
-                        Join us in celebrating their union and the beginning of their new chapter together!
-                    </p>
-                </div>
-                <div className="flex flex-col items-center">
-                    <div className="relative w-64 h-64">
-                        <div className="w-full h-full rounded-full overflow-hidden">
-                            <img
-                                src={is2}
-                                alt="Bride"
-                                className="w-full h-full object-cover"
-                            />
+                        <div>
+                            <h3 className="text-5xl font-calligraphy mb-2">Irfan Maolana</h3>
+                            <p className="text-xs uppercase tracking-[0.3em] font-light text-muted-foreground mb-4">The Groom</p>
+                            <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-xs">
+                                Son of Mr. X <br /> & Mrs. Y
+                            </p>
                         </div>
-                        <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="1" />
-                        </svg>
-                    </div>
-                    <h3 className="text-2xl font-secondary mt-4">Rima</h3>
+                    </motion.div>
+
+                    {/* Bride */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="flex flex-col items-center text-center space-y-8"
+                    >
+                        <div className="relative group">
+                            <div className="absolute inset-0 border border-primary/10 -m-4 group-hover:m-0 transition-all duration-700" />
+                            <div className="w-64 h-80 overflow-hidden relative">
+                                <img
+                                    src={is}
+                                    alt="Bride"
+                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-110"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-5xl font-calligraphy mb-2">Rima Sefrina</h3>
+                            <p className="text-xs uppercase tracking-[0.3em] font-light text-muted-foreground mb-4">The Bride</p>
+                            <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-xs">
+                                Daughter of Mr. A <br /> & Mrs. B
+                            </p>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

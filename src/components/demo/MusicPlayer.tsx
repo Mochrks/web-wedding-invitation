@@ -1,94 +1,62 @@
 import { useState, useEffect, useRef } from 'react'
-import { Button } from "@/components/ui/button"
-import { Volume2, VolumeX, Pause, Play } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Music, Play } from 'lucide-react'
 import audio from "../../assets/audio/audio1.mp3"
 
 export function MusicPlayer() {
-    const [isPlaying, setIsPlaying] = useState(false) // Default: tidak autoplay
-    const [isMuted, setIsMuted] = useState(false)
+    const [isPlaying, setIsPlaying] = useState(true)
     const [showInfo, setShowInfo] = useState(true)
-    const [userInteracted, setUserInteracted] = useState(false) // Flag untuk interaksi pengguna
     const audioRef = useRef<HTMLAudioElement>(null)
 
-    // Show song info for 5 seconds
     useEffect(() => {
-        const infoTimeout = setTimeout(() => setShowInfo(false), 10000)
+        const infoTimeout = setTimeout(() => setShowInfo(false), 8000)
         return () => clearTimeout(infoTimeout)
     }, [])
 
-    // Handle play/pause effect
     useEffect(() => {
-        if (audioRef.current && userInteracted) { // Hanya putar setelah interaksi pengguna
+        if (audioRef.current) {
             if (isPlaying) {
-                audioRef.current.play().catch(error => {
-                    console.log("Playback failed:", error)
-                })
+                audioRef.current.play().catch(err => console.log("Audio play blocked", err))
             } else {
                 audioRef.current.pause()
             }
         }
-    }, [isPlaying, userInteracted])
-
-    // Handle mute/unmute effect
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.muted = isMuted
-        }
-    }, [isMuted])
-
-    const handleFirstInteraction = () => {
-        setUserInteracted(true) // Tandai interaksi pertama pengguna
-        setIsPlaying(true) // Mulai putar musik
-    }
-
-    const togglePlay = () => setIsPlaying(!isPlaying)
-
-    const toggleMute = () => setIsMuted(!isMuted)
+    }, [isPlaying])
 
     return (
-        <div className="fixed bottom-2 right-2 p-3 rounded-lg flex items-center space-x-4">
-            {/* Audio element */}
-            <audio ref={audioRef} loop>
-                <source src={audio} type="audio/mpeg" />
-                Your browser does not support the audio element.
-            </audio>
+        <div className="fixed bottom-8 right-8 z-[60] flex items-center gap-4">
+            <AnimatePresence>
+                {showInfo && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        className="bg-background/80 backdrop-blur-md border border-primary/10 px-4 py-2 shadow-sm pointer-events-none"
+                    >
+                        <p className="text-[10px] uppercase tracking-[0.2em] font-medium">Lagu Pernikahan Kita</p>
+                        <p className="text-[9px] uppercase tracking-[0.1em] opacity-50">Tiara Andini, Arsy Widianto</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Informasi lagu */}
-            {showInfo && (
-
-                <motion.div
-                    initial={{ opacity: 1, x: 0 }}
-                    animate={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 3.5, delay: 2 }}
-                    className="text-left bg-white border rounded-md px-4"
+            <div className="relative">
+                <audio ref={audioRef} loop src={audio} />
+                <motion.button
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    animate={{ rotate: isPlaying ? 360 : 0 }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-700 ${isPlaying ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-primary border-primary/20'}`}
                 >
-                    <p className="text-sm font-bold"> Lagu Pernikahan Kita </p>
-                    <p className="text-xs text-gray-600">Tiara Andini, Arsy Widianto</p>
-                </motion.div>
+                    {isPlaying ? <Music className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+                </motion.button>
 
-            )}
-
-            {/* Controls */}
-            <div className="flex space-x-2">
-                {/* Play Button for first interaction */}
-                {!userInteracted && (
-                    <Button onClick={handleFirstInteraction} variant="outline" size="icon">
-                        <Play className="h-4 w-4" />
-                    </Button>
+                {isPlaying && (
+                    <motion.div
+                        className="absolute inset-0 rounded-full border border-primary/20"
+                        animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                    />
                 )}
-
-                {/* Play/Pause Button */}
-                {userInteracted && (
-                    <Button onClick={togglePlay} variant="outline" size="icon">
-                        {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                    </Button>
-                )}
-
-                {/* Mute/Unmute Button */}
-                <Button onClick={toggleMute} variant="outline" size="icon">
-                    {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                </Button>
             </div>
         </div>
     )

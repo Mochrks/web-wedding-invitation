@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { satu, dua, sembilan } from '@/assets'
 
-const images = [
-    satu,
-    dua,
-    sembilan,
-]
+const images = [satu, dua, sembilan]
 
 export function Carousel() {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -14,57 +10,57 @@ export function Carousel() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
-        }, 2000)
-
+        }, 6000)
         return () => clearInterval(timer)
     }, [])
 
     return (
-        <div className="relative w-full h-64 md:h-96 overflow-hidden rounded-lg">
-            {images.map((image, index) => (
+        <section className="relative h-[90vh] w-full overflow-hidden">
+            <AnimatePresence mode="wait">
                 <motion.div
-                    key={index}
-                    className="absolute w-full h-full"
-                    initial={{ scale: 1.2, opacity: index === 0 ? 1 : 0 }}
-                    animate={{
-                        scale: index === currentIndex ? 1 : 1.2,
-                        opacity: index === currentIndex ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.8 }}
+                    key={currentIndex}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 2, ease: "easeOut" }}
+                    className="absolute inset-0"
                 >
-                    <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                    <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/30 z-10" />
+                    <img
+                        src={images[currentIndex]}
+                        alt={`Wedding Preview ${currentIndex + 1}`}
+                        className="w-full h-full object-cover grayscale-[20%] sepia-[5%] brightness-[95%]"
+                    />
                 </motion.div>
-            ))}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center z-10">
-                <motion.h2
-                    className="text-4xl md:text-6xl font-bold mb-4"
-                    initial={{ opacity: 0, y: -20 }}
+            </AnimatePresence>
+
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 1.2, delay: 0.5 }}
                 >
-                    We are getting married
-                </motion.h2>
-                <motion.p
-                    className="text-xl md:text-2xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                    10 October 2024
-                </motion.p>
+                    <p className="text-sm uppercase tracking-[0.5em] mb-6 font-light">The Wedding Of</p>
+                    <h2 className="text-7xl md:text-9xl font-calligraphy mb-4 leading-tight">Irfan & Rima</h2>
+                    <div className="w-16 h-[1px] bg-white/40 mx-auto mb-6" />
+                    <p className="text-xl md:text-2xl font-light italic tracking-widest">10 . 11 . 2024</p>
+                </motion.div>
             </div>
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+
+            {/* Pagination Dots */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-4">
                 {images.map((_, index) => (
                     <button
                         key={index}
-                        className={`w-3 h-3 rounded-full transition-colors duration-300 ${index === currentIndex ? 'bg-white' : 'bg-gray-400 hover:bg-gray-300'
-                            }`}
                         onClick={() => setCurrentIndex(index)}
-                        aria-label={`Go to slide ${index + 1}`}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${currentIndex === index ? 'bg-white w-8' : 'bg-white/30'}`}
                     />
                 ))}
             </div>
-        </div>
+
+            <div className="absolute left-10 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col gap-8 text-[10px] uppercase tracking-[0.4em] text-white/50 rotate-180 [writing-mode:vertical-lr]">
+                <span>Discover Our Love Story</span>
+            </div>
+        </section>
     )
 }
