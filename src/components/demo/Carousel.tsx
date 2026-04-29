@@ -8,6 +8,12 @@ export function Carousel() {
     const [currentIndex, setCurrentIndex] = useState(0)
 
     useEffect(() => {
+        // Preload images for smooth transition
+        images.forEach((src) => {
+            const img = new Image()
+            img.src = src
+        })
+
         const timer = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
         }, 6000)
@@ -16,19 +22,22 @@ export function Carousel() {
 
     return (
         <section className="relative h-[90vh] w-full overflow-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 <motion.div
                     key={currentIndex}
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 2, ease: "easeOut" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }}
                     className="absolute inset-0"
                 >
                     <div className="absolute inset-0 bg-black/30 z-10" />
                     <img
                         src={images[currentIndex]}
                         alt={`Wedding Preview ${currentIndex + 1}`}
+                        loading={currentIndex === 0 ? "eager" : "lazy"}
+                        fetchPriority={currentIndex === 0 ? "high" : "auto"}
+                        decoding="async"
                         className="w-full h-full object-cover grayscale-[20%] sepia-[5%] brightness-[95%]"
                     />
                 </motion.div>

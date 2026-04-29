@@ -116,6 +116,8 @@ export function PhotoGallery() {
                                 <img
                                     src={photo.src}
                                     alt={photo.alt}
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-700 flex items-center justify-center">
@@ -128,18 +130,18 @@ export function PhotoGallery() {
             </div>
 
             <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
-                <DialogContent className="max-w-[90vw] md:max-w-[70vw] h-[80vh] bg-black/95 border-none p-0 overflow-hidden rounded-none">
+                <DialogContent className="max-w-[95vw] md:max-w-[90vw] max-h-[95vh] w-auto bg-transparent border-none p-0 overflow-visible shadow-none flex justify-center items-center">
                     <DialogHeader className="hidden">
                         <DialogTitle>Photo View</DialogTitle>
                     </DialogHeader>
-                    <div className="relative w-full h-full flex items-center justify-center p-4">
+                    <div className="relative flex items-center justify-center">
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="absolute top-4 right-4 z-50 text-white hover:bg-white/10"
+                            className="absolute -top-12 right-0 md:-right-10 z-50 text-white hover:bg-white/20 rounded-full"
                             onClick={closeLightbox}
                         >
-                            <X className="h-5 w-5" />
+                            <X className="h-6 w-6" />
                         </Button>
 
                         <AnimatePresence mode="wait">
@@ -148,26 +150,28 @@ export function PhotoGallery() {
                                     key={selectedPhoto.id}
                                     src={selectedPhoto.src}
                                     alt={selectedPhoto.alt}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 1.1 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="max-w-full max-h-full object-contain"
+                                    loading="lazy"
+                                    decoding="async"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-md"
                                 />
                             )}
                         </AnimatePresence>
 
                         <button
-                            className="absolute left-4 text-white/50 hover:text-white transition-colors"
+                            className="absolute left-2 md:-left-16 text-white/50 hover:text-white transition-colors bg-black/20 p-2 rounded-full backdrop-blur-sm"
                             onClick={() => navigatePhoto('prev')}
                         >
-                            <ChevronLeft className="h-10 w-10 stroke-1" />
+                            <ChevronLeft className="h-8 w-8 md:h-10 md:w-10 stroke-1" />
                         </button>
                         <button
-                            className="absolute right-4 text-white/50 hover:text-white transition-colors"
+                            className="absolute right-2 md:-right-16 text-white/50 hover:text-white transition-colors bg-black/20 p-2 rounded-full backdrop-blur-sm"
                             onClick={() => navigatePhoto('next')}
                         >
-                            <ChevronRight className="h-10 w-10 stroke-1" />
+                            <ChevronRight className="h-8 w-8 md:h-10 md:w-10 stroke-1" />
                         </button>
                     </div>
                 </DialogContent>

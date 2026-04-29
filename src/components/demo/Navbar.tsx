@@ -25,7 +25,7 @@ export function Navbar() {
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isScrolled ? 'py-4' : 'py-8'}`}>
-            <nav className="container mx-auto px-4">
+            <nav className="relative z-50 container mx-auto px-4">
                 <div className={`mx-auto max-w-4xl glass rounded-full px-6 py-3 flex items-center justify-between transition-all duration-700 ${isScrolled ? 'shadow-xl' : 'shadow-none'}`}>
                     <a href="#" className="text-xl italic font-serif tracking-tighter">I&R</a>
 

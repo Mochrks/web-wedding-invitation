@@ -19,6 +19,7 @@ export function VideoSection() {
                             <img
                                 src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" // Thumbnail dari YouTube video
                                 alt="Our Story Thumbnail"
+                                loading="lazy"
                                 className="rounded-lg shadow-lg"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">

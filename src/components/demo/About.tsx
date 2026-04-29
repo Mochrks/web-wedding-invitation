@@ -34,6 +34,8 @@ export function About() {
                                 <img
                                     src={irfan}
                                     alt="Groom"
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-110"
                                 />
                             </div>
@@ -61,6 +63,8 @@ export function About() {
                                 <img
                                     src={is}
                                     alt="Bride"
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-110"
                                 />
                             </div>
